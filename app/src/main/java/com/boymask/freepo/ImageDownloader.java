@@ -21,30 +21,19 @@ class ImageDownloader extends AsyncTask<String, String, Bitmap> {
     public ImageDownloader(String url, ImageView imageView, MainActivity mainActivity) {
         this.turl = url;
         this.imageView = imageView;
-        this.main=mainActivity;
+        this.main = mainActivity;
     }
 
+    private Bitmap prev = null;
 
     @Override
     protected Bitmap doInBackground(String... params) {
         try {
-           /* String out = readUrl(turl);
-
-            String hrefStart = "content=\"";
-            int start = out.indexOf(hrefStart);
-
-            int end = out.indexOf("\"", start + hrefStart.length() + 1);
-
-            turl = out.substring(start + hrefStart.length(), end);
-            System.out.println("[" + turl + "]");
-
-            File f = saveToFile(turl);
-*/
-
             URL url = new URL(turl);
             Bitmap bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-       //     Bitmap bmp = BitmapFactory.decodeStream(new FileInputStream(f));
-           return bmp;
+            if (prev != null) prev.recycle();
+            prev = bmp;
+            return bmp;
         } catch (Throwable e) {
             e.printStackTrace();
         }
@@ -73,7 +62,7 @@ class ImageDownloader extends AsyncTask<String, String, Bitmap> {
 
             }
         }
-        System.out.println( tmp.length());
+        System.out.println(tmp.length());
         return tmp;
     }
 
@@ -82,7 +71,7 @@ class ImageDownloader extends AsyncTask<String, String, Bitmap> {
     protected void onPostExecute(Bitmap result) {
         // execution of result of Long time consuming operation
 
-             main.setImg(result);
+        main.setImg(result);
     }
 
 

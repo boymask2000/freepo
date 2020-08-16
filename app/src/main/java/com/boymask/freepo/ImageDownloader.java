@@ -6,9 +6,6 @@ import android.os.AsyncTask;
 import android.widget.ImageView;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 
@@ -41,30 +38,6 @@ class ImageDownloader extends AsyncTask<String, String, Bitmap> {
         return null;
     }
 
-    private File saveToFile(String turl) throws Exception {
-        URL url = new URL(turl);
-        File tmp;
-        try (InputStream fis = url.openStream()) {
-            int av = fis.available();
-            System.out.println("av: " + av);
-            tmp = File.createTempFile("tmp", ".jpg");
-            try (FileOutputStream fos = new FileOutputStream(tmp, true)) {
-
-
-                byte buffer[] = new byte[1024];
-                int size = 0;
-
-                while ((size = fis.read(buffer)) != -1) {
-                    fos.write(buffer, 0, size);
-                    System.out.println("size: " + size);
-                    System.out.println(new String(buffer));
-                }
-
-            }
-        }
-        System.out.println(tmp.length());
-        return tmp;
-    }
 
 
     @Override

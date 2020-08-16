@@ -24,10 +24,7 @@ import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
@@ -69,7 +66,6 @@ public class MainActivity extends AppCompatActivity {
         });
         AdView mAdView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder()
-                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
                 .build();
         mAdView.loadAd(adRequest);
         mInterstitialAd = new InterstitialAd(this);
@@ -98,8 +94,8 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPref =
                 PreferenceManager
                         .getDefaultSharedPreferences(this);
-        String v = sharedPref.getString("reply_entries", "");
-        String v1 = sharedPref.getString("reply_values", "");
+//        String v = sharedPref.getString("reply_entries", "");
+//        String v1 = sharedPref.getString("reply_values", "");
         Map<String, ?> v2 = sharedPref.getAll();
         Set<String> keys = v2.keySet();
         for (String k : keys) {
@@ -178,14 +174,18 @@ public class MainActivity extends AppCompatActivity {
                 if (f.getVideos() != null && f.getVideos().size() > 0) {
                     Map p = (Map) f.getVideos().get(0);
                     String embed = (String) p.get("embed");
+                    Map defaultThumb = (Map) p.get("default_thumb");
 
-                    List<?> thumbs = (List<?>) p.get("thumbs");
+                    String src = (String) defaultThumb.get("src");
+
+
+                  /*  List<?> thumbs = (List<?>) p.get("thumbs");
                     Random rand = new Random();
 
                     // Generate random integers in range 0 to 999
                     int rand_int1 = rand.nextInt(thumbs.size());
                     Map thumb = (Map) thumbs.get(rand_int1);
-                    String src = (String) thumb.get("src");
+                    String src = (String) thumb.get("src");*/
 
                     show(src);
                 }
@@ -200,9 +200,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
+    private Random rand = new Random();
     private int getNextPage(int n) {
-        Random rand = new Random();
+
         int rand_int1 = rand.nextInt(n);
         if (rand_int1 == 0) rand_int1 = 1;
         return rand_int1;
